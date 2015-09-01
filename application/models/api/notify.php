@@ -1,0 +1,279 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Phu Le
+ * Date: 6/29/2015
+ * Time: 10:47 AM
+ */
+
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Notify extends CI_Model {
+
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->model(array('api/post','api/account','api/notification','api/history'));
+    }
+
+    /**
+     * send notify to GCM
+     * */
+    function sendPushNotificationToGCM($registrationIds = array(), $message) {
+        $url = 'https://android.googleapis.com/gcm/send';
+        $fields = array
+        (
+            'registration_ids' 	=> $registrationIds,
+            'data'			=> $message
+        );
+
+        $headers = array
+        (
+            'Authorization: key=' . DEFIND_GOOGLE_API_KEY_SERVER,
+            'Content-Type: application/json'
+        );
+
+        $ch = curl_init();
+        curl_setopt( $ch,CURLOPT_URL, $url );
+        curl_setopt( $ch,CURLOPT_POST, true );
+        curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+        curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+        curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+        curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+        $result = curl_exec($ch );
+        curl_close( $ch );
+        $result = json_decode($result);
+        return $result->success == 1;
+    }
+
+    /**
+     * get reg_id by account_id
+     * */
+    function getRegId($account_id){
+        $this->db->where('id',$account_id);
+        $query = $this->db->get('accounts');
+        $result = $query->result_array();
+        if(count($result) > 0) {
+            return $result[0]['reg_id'];
+        }
+        return "";
+    }
+
+    /**
+     * send notify for all province -> 10Km
+     * */
+
+    function send_notify_to_providers($post_id){
+        //create object to send to gcm
+        $message_to_send = new stdClass();
+        $message_to_send->data = new stdClass();
+        $message_to_send->data->results = new stdClass();
+
+        $message_to_send->data->status = API_SUCCESS;
+        $message_to_send->data->message = '';
+        $message_to_send->data->results = $this->post->getPostDetailById($post_id);
+        $message_to_send->data->validation = null;
+
+        $account_array = $this->account->getAccountIdByLocation($message_to_send->data->results, 10);
+        $regId_array = array();
+        if (count($account_array) > 0) {
+            $created_at = getCurrentDate();
+
+            //save history--- user create
+            $this->history->saveHistory(array(
+                'account_id' => $message_to_send->data->results->created_by,
+                'record_id' => $post_id,
+                'sender_id' => $message_to_send->data->results->created_by,
+                'type_of_notification' => 1,
+                'action' => 1,
+                'created_at' => $created_at
+            ));
+
+            for ($i = 0; $i < count($account_array); $i++) {
+                array_push($regId_array, $this->getRegId($account_array[$i]['id']));
+                $this->notification->save_notification(
+                    $message_to_send->data->results->created_by,
+                    $account_array[$i]['id'],
+                    $post_id,
+                    1,  //type of notification 1 is posts
+                    1,  //acction create post,
+                    $created_at
+                );
+            }
+            $message_to_send->data->results->notify = $this->notification->get_message_notification($post_id,1,1);
+            $this->sendPushNotificationToGCM($regId_array, $message_to_send);
+        }
+    }
+
+    /**
+     * send notify for user created post when province picked your post
+     * */
+
+    function send_notify_account($arrPostId,$type,$action, $account_id = null, $pickedBy = null){
+        for($i=0; $i<count($arrPostId); $i++) {
+            $postInfo = $this->post->getPostDetailById($arrPostId[$i]);
+            $message_to_send = new stdClass();
+            $message_to_send->data = new stdClass();
+            $message_to_send->data->results = new stdClass();
+
+            $message_to_send->data->status = API_SUCCESS;
+            $message_to_send->data->message = '';
+            $message_to_send->data->results = $postInfo;
+            $message_to_send->data->validation = null;
+
+            $message_to_send->data->results->notify = $this->notification->get_message_notification($arrPostId[$i],$type,$action,$account_id,$pickedBy);
+
+            $regId_array = array();
+
+            $created_at = getCurrentDate();
+
+            //pick post-----------------------------
+            if($type == 1 && $action == 2){
+                $regId_array = $this->getRegId($postInfo->created_by);
+                $this->notification->save_notification(
+                    $postInfo->picked_by,
+                    $postInfo->created_by,
+                    $arrPostId[$i],
+                    1,  //type of notification 1 is posts
+                    2,  //acction create post
+                    $created_at
+                );
+                //save history--- user recipient
+                $this->history->saveHistory(array(
+                    'account_id' => $postInfo->created_by,
+                    'record_id' => $arrPostId[$i],
+                    'sender_id' => $postInfo->picked_by,
+                    'recipient_id' => $postInfo->created_by,
+                    'type_of_notification' => 1,
+                    'action' => 2,
+                    'created_at' => $created_at
+                ));
+
+                //save history--- user create
+                $this->history->saveHistory(array(
+                    'account_id' => $postInfo->picked_by,
+                    'record_id' => $arrPostId[$i],
+                    'sender_id' => $postInfo->picked_by,
+                    'recipient_id' => $postInfo->created_by,
+                    'type_of_notification' => 1,
+                    'action' => 2,
+                    'created_at' => $created_at
+                ));
+            }
+
+            //complete post----------------------------
+            if($type == 1 && $action == 4){
+                $regId_array = $this->getRegId($postInfo->picked_by);
+
+                $this->notification->save_notification(
+                    $postInfo->created_by,
+                    $postInfo->picked_by,
+                    $arrPostId[$i],
+                    1,  //type of notification 1 is posts
+                    4,  //acction complete post
+                    $created_at
+                );
+
+                //save history--- user recipient
+                $this->history->saveHistory(array(
+                    'account_id' => $postInfo->picked_by,
+                    'record_id' => $arrPostId[$i],
+                    'sender_id' => $postInfo->created_by,
+                    'recipient_id' => $postInfo->picked_by,
+                    'type_of_notification' => 1,
+                    'action' => 4,
+                    'created_at' => $created_at
+                ));
+
+                //save history--- user confirm complete post
+                $this->history->saveHistory(array(
+                    'account_id' => $postInfo->created_by,
+                    'record_id' => $arrPostId[$i],
+                    'sender_id' => $postInfo->created_by,
+                    'recipient_id' => $postInfo->picked_by,
+                    'type_of_notification' => 1,
+                    'action' => 4,
+                    'created_at' => $created_at
+                ));
+            }
+            //destroy post-----------------------------
+            if($type == 1 && $action == 3){
+
+                //provider --> user
+                if($pickedBy == $account_id){
+                    $regId_array = $this->getRegId($postInfo->created_by);
+                    $this->notification->save_notification(
+                        $pickedBy,
+                        $postInfo->created_by,
+                        $arrPostId[$i],
+                        1,  //type of notification 1 is posts
+                        3,  //acction complete post
+                        $created_at
+                    );
+
+                    //save history--- user recipient
+                    $this->history->saveHistory(array(
+                        'account_id' => $postInfo->created_by,
+                        'record_id' => $arrPostId[$i],
+                        'sender_id' => $pickedBy,
+                        'recipient_id' => $postInfo->created_by,
+                        'type_of_notification' => 1,
+                        'action' => 3,
+                        'created_at' => $created_at
+                    ));
+
+                    //save history--- user distroy post
+                    $this->history->saveHistory(array(
+                        'account_id' => $pickedBy,
+                        'record_id' => $arrPostId[$i],
+                        'sender_id' => $pickedBy,
+                        'recipient_id' => $postInfo->created_by,
+                        'type_of_notification' => 1,
+                        'action' => 3,
+                        'created_at' => $created_at
+                    ));
+                }
+
+                //user --> provider
+                if($postInfo->created_by == $account_id){
+                    $regId_array = $this->getRegId($pickedBy);
+                    $this->notification->save_notification(
+                        $postInfo->created_by,
+                        $pickedBy,
+                        $arrPostId[$i],
+                        1,  //type of notification 1 is posts
+                        3,  //acction complete post
+                        $created_at
+                    );
+
+                    //save history--- user recipient
+                    $this->history->saveHistory(array(
+                        'account_id' => $pickedBy,
+                        'record_id' => $arrPostId[$i],
+                        'sender_id' => $postInfo->created_by,
+                        'recipient_id' => $pickedBy,
+                        'type_of_notification' => 1,
+                        'action' => 3,
+                        'created_at' => $created_at
+                    ));
+
+                    //save history--- user distroy post
+                    $this->history->saveHistory(array(
+                        'account_id' => $postInfo->created_by,
+                        'record_id' => $arrPostId[$i],
+                        'sender_id' => $postInfo->created_by,
+                        'recipient_id' => $pickedBy,
+                        'type_of_notification' => 1,
+                        'action' => 3,
+                        'created_at' => $created_at
+                    ));
+                }
+
+            }
+            $this->sendPushNotificationToGCM(array($regId_array), $message_to_send);
+        }
+    }
+
+
+}

@@ -1,0 +1,13 @@
+.das-link:hover{
+    text-decoration: underline;
+}
+
+@font-face {
+    font-family: 'Arial';
+    font-style: normal;
+    src: url("font/Arial.ttf");
+}
+
+.fa.fa-home, a, a:active, a:hover, a:focus{
+    color: #666666;
+}
