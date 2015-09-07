@@ -76,8 +76,6 @@ class Accounts extends Rest_Controller
                 array('field' => 'gender', 'label' => 'lang:gender', 'rules' => 'required'),
                 array('field' => 'identity_card_id', 'label' => 'lang:identity_card_id', 'rules' => 'required'),
                 array('field' => 'phone_number', 'label' => 'lang:phone_number', 'rules' => 'required'),
-                array('field' => 'blood_group_id', 'label' => 'lang:blood_group_id', 'rules' => 'required'),
-                array('field' => 'blood_group_rh_id', 'label' => 'lang:blood_group_rh_id', 'rules' => 'required'),
                 array('field' => 'avatar', 'label' => 'lang:avatar', 'rules' => 'required'),
                 array('field' => 'account_type', 'label' => 'lang:account_type', 'rules' => 'required|integer'),
                 /*array('field' => 'android_id', 'label' => 'lang:android_id', 'rules' => 'required')*/
@@ -104,8 +102,6 @@ class Accounts extends Rest_Controller
                     'gender' => $this->form_validation->error('gender'),
                     'identity_card_id' => $this->form_validation->error('identity_card_id'),
                     'phone_number' => $this->form_validation->error('phone_number'),
-                    'blood_group_id' => $this->form_validation->error('blood_group_id'),
-                    'blood_group_rh_id' => $this->form_validation->error('blood_group_rh_id'),
                     'avatar' => $this->form_validation->error('avatar'),
                     'account_type' => $this->form_validation->error('account_type'),
                     /*'android_id' => $this->form_validation->error('android_id')*/
@@ -125,8 +121,6 @@ class Accounts extends Rest_Controller
                     'gender' => $dataInput['gender'],
                     'identity_card_id' => $dataInput['identity_card_id'],
                     'phone_number' => $dataInput['phone_number'],
-                    'blood_group_id' => $dataInput['blood_group_id'],
-                    'blood_group_rh_id' => $dataInput['blood_group_rh_id'],
                     'avatar' => $file_id,
                     'address' => !empty($dataInput['address']) ? $dataInput['address'] : "",
                     'contact_name' => !empty($dataInput['contact_name']) ? $dataInput['contact_name'] : "",
@@ -158,8 +152,6 @@ class Accounts extends Rest_Controller
                 array('field' => 'gender', 'label' => 'lang:gender', 'rules' => 'required'),
                 array('field' => 'identity_card_id', 'label' => 'lang:identity_card_id', 'rules' => 'required'),
                 array('field' => 'phone_number', 'label' => 'lang:phone_number', 'rules' => 'required'),
-                array('field' => 'blood_group_id', 'label' => 'lang:blood_group_id', 'rules' => 'required'),
-                array('field' => 'blood_group_rh_id', 'label' => 'lang:blood_group_rh_id', 'rules' => 'required'),
             );
 
             $this->form_validation->set_rules($rules);
@@ -175,8 +167,6 @@ class Accounts extends Rest_Controller
                     'gender' => $this->form_validation->error('gender'),
                     'identity_card_id' => $this->form_validation->error('identity_card_id'),
                     'phone_number' => $this->form_validation->error('phone_number'),
-                    'blood_group_id' => $this->form_validation->error('blood_group_id'),
-                    'blood_group_rh_id' => $this->form_validation->error('blood_group_rh_id'),
                 );
             } //validate success
             else {
@@ -189,8 +179,6 @@ class Accounts extends Rest_Controller
                     'gender' => $dataInput['gender'],
                     'identity_card_id' => $dataInput['identity_card_id'],
                     'phone_number' => $dataInput['phone_number'],
-                    'blood_group_id' => $dataInput['blood_group_id'],
-                    'blood_group_rh_id' => $dataInput['blood_group_rh_id'],
                     'address' => !empty($dataInput['address']) ? $dataInput['address'] : "",
                     'contact_name' => !empty($dataInput['contact_name']) ? $dataInput['contact_name'] : "",
                     'contact_phone' => !empty($dataInput['contact_phone']) ? $dataInput['contact_phone'] : ""

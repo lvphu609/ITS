@@ -62,7 +62,7 @@
                         </li>
                     </ul>-->
                     <hr class="small">
-                    <p class="text-muted">Copyright © X-Project 2015</p>
+                    <p class="text-muted">Copyright © Innoria Solution 2015</p>
                 </div>
         </footer>
 

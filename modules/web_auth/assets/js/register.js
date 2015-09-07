@@ -206,17 +206,8 @@ $(document).ready(function(){
                 required: true,
                 emailCustom: true
             },
-            blood_group_id: {
-                required: true
-            },
-            blood_group_rh_id: {
-                required: true
-            },
             avatar:{
                 required: true
-            },
-            contact_phone: {
-                number: true
             }
         },
         messages: {
@@ -262,18 +253,10 @@ $(document).ready(function(){
                 required: "Email không được để trống.",
                 emailCustom: "Email không đúng định dạng. ví dụ example@gmail.com",
             },
-            blood_group_id: {
-                required: "Chọn nhóm máu."
-            },
-            blood_group_rh_id: {
-                required: "Chọn nhóm máu RH."
-            },
             avatar:{
                 required: "Hình đại diện không được để trống."
-            },
-            contact_phone: {
-                number: "Số điện thoại phải là số."
             }
+
         },
         tooltip_options: {
             /*example4: {trigger:'focus'},
@@ -287,10 +270,7 @@ $(document).ready(function(){
             identity_card_id: {placement:'top'},
             phone_number: {placement:'top'},
             email:{placement:'top'},
-            blood_group_id: {placement:'top'},
-            blood_group_rh_id: {placement:'top'},
-            avatar:{placement:'top'},
-            contact_phone: {placement:'top'}
+            avatar:{placement:'top'}
         },
         /*errorPlacement: function(error,element) {
             checkEnableButton();
@@ -464,30 +444,6 @@ $(document).ready(function(){
         $(this).closest('.form-group').removeClass('has-error').find('.error').remove();
     });
 
-    $(document).on('change','#blood_group_id',function(){
-        checkEnableButton();
-        var $valid = $("#formRegister").validate().element($('#blood_group_id'));
-        if(!$valid){
-            $('.btn-next').attr('disabled', 'disabled');
-        }
-    });
-
-    $(document).on('click','#blood_group_id',function(){
-        $(this).closest('.form-group').removeClass('has-error').find('.error').remove();
-    });
-
-    $(document).on('change','#blood_group_rh_id',function(){
-        checkEnableButton();
-        var $valid = $("#formRegister").validate().element($('#blood_group_rh_id'));
-        if(!$valid){
-            $('.btn-next').attr('disabled', 'disabled');
-        }
-    });
-
-    $(document).on('click','#blood_group_rh_id',function(){
-        $(this).closest('.form-group').removeClass('has-error').find('.error').remove();
-    });
-
     $(document).on('change','#avatar',function(){
         checkEnableButton();
         var $valid = $("#formRegister").validate().element($('#avatar'));
@@ -507,8 +463,6 @@ $(document).ready(function(){
         var identity_card_id = $('#identity_card_id').val();
         var phone_number = $('#phone_number').val();
         var email = $('#email').val();
-        var blood_group_id = $('#blood_group_id').val();
-        var blood_group_rh_id = $('#blood_group_rh_id').val();
         var avatar = $('#avatar').val();
         var account_type = $('#account_type').val();
 
@@ -521,8 +475,6 @@ $(document).ready(function(){
             identity_card_id != "" &&
             phone_number != "" &&
             email != "" &&
-            blood_group_id != "" &&
-            blood_group_rh_id != "" &&
             avatar != ""){
             $('.btn-next').removeAttr('disabled');
         } else {
@@ -538,8 +490,6 @@ $(document).ready(function(){
             identity_card_id != "" &&
             phone_number != "" &&
             email != "" &&
-            blood_group_id != "" &&
-            blood_group_rh_id != "" &&
             avatar != "" &&
             account_type != ""
             ){

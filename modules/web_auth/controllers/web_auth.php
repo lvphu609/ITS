@@ -147,13 +147,9 @@ class Web_auth extends MX_Controller
             array('field' => 'gender', 'label' => 'lang:gender', 'rules' => 'required|htmlspecialchars'),
             array('field' => 'identity_card_id', 'label' => 'lang:identity_card_id', 'rules' => 'required|is_unique[accounts.identity_card_id]|htmlspecialchars'),
             array('field' => 'phone_number', 'label' => 'lang:phone_number', 'rules' => 'required|htmlspecialchars'),
-            array('field' => 'blood_group_id', 'label' => 'lang:blood_group_id', 'rules' => 'required|htmlspecialchars'),
-            array('field' => 'blood_group_rh_id', 'label' => 'lang:blood_group_rh_id', 'rules' => 'required|htmlspecialchars'),
             array('field' => 'avatar', 'label' => 'lang:avatar', 'rules' => 'required|htmlspecialchars'),
             array('field' => 'account_type', 'label' => 'lang:account_type', 'rules' => 'required|integer|htmlspecialchars'),
-            array('field' => 'contact_phone', 'label' => 'lang:contact_phone', 'rules' => 'is_natural|htmlspecialchars'),
             array('field' => 'address', 'label' => 'lang:address', 'rules' => 'htmlspecialchars'),
-            array('field' => 'contact_name', 'label' => 'lang:contact_name', 'rules' => 'htmlspecialchars')
         );
 
         $this->form_validation->set_rules($rules);
@@ -170,11 +166,8 @@ class Web_auth extends MX_Controller
                 'gender' => $this->form_validation->error('gender'),
                 'identity_card_id' => $this->form_validation->error('identity_card_id'),
                 'phone_number' => $this->form_validation->error('phone_number'),
-                'blood_group_id' => $this->form_validation->error('blood_group_id'),
-                'blood_group_rh_id' => $this->form_validation->error('blood_group_rh_id'),
                 'avatar' => $this->form_validation->error('avatar'),
-                'account_type' => $this->form_validation->error('account_type'),
-                'contact_phone' => $this->form_validation->error('contact_phone')
+                'account_type' => $this->form_validation->error('account_type')
             );
 
             $set_value = array(
@@ -187,11 +180,7 @@ class Web_auth extends MX_Controller
                 'gender' => $this->input->post('gender'),
                 'identity_card_id' => $this->input->post('identity_card_id'),
                 'phone_number' => $this->input->post('phone_number'),
-                'blood_group_id' => $this->input->post('blood_group_id'),
-                'blood_group_rh_id' => $this->input->post('blood_group_rh_id'),
                 'address' => $this->input->post('ac_address'),
-                'contact_name' => $this->input->post('contact_name'),
-                'contact_phone' => $this->input->post('contact_phone'),
                 'account_type' => $this->input->post('account_type'),
                 'avatar' => $this->input->post('avatar')
             );
@@ -241,12 +230,8 @@ class Web_auth extends MX_Controller
                 'gender' => $dataInput['gender'],
                 'identity_card_id' => $dataInput['identity_card_id'],
                 'phone_number' => $dataInput['phone_number'],
-                'blood_group_id' => $dataInput['blood_group_id'],
-                'blood_group_rh_id' => $dataInput['blood_group_rh_id'],
                 'avatar' => $file_id,
                 'address' => !empty($dataInput['ac_address']) ? $dataInput['ac_address'] : "",
-                'contact_name' => !empty($dataInput['contact_name']) ? $dataInput['contact_name'] : "",
-                'contact_phone' => !empty($dataInput['contact_phone']) ? $dataInput['contact_phone'] : "",
                 'account_type' => $dataInput['account_type']
             );
             //save record account

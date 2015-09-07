@@ -212,54 +212,6 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <!--<div class="clear"></div>-->
-                                            <div class="col-sm-7 no-padding-left clear" >
-                                                <div class="form-group <?php echo !empty($validation["blood_group_id"]) ? "has-error" : null; ?>">
-                                                    <label for="blood_group_id" class="pull-left">Chọn nhóm máu</label><br>
-                                                    <select id="blood_group_id" name="blood_group_id" class="form-control">
-                                                        <option value="" <?php echo (!empty($validation["blood_group_id"]))? 'selected' : ''; ?>  > Chọn nhóm máu </option>
-                                                        <?php foreach(get_blood_group() as $key => $bloodItem){  ?>
-                                                            <?php if(empty($validation["blood_group_id"]) && empty($set_value['blood_group_id']) ){ ?>
-                                                                <option value="<?php echo $bloodItem["id"]; ?>" >  <?php echo $bloodItem['name']; ?> </option>
-                                                            <?php } else { ?>
-                                                                <option value="<?php echo $bloodItem["id"]; ?>" <?php echo ($bloodItem["id"] == $set_value['blood_group_id'])? 'selected' : null; ?> >  <?php echo $bloodItem['name']; ?> </option>
-                                                            <?php }  ?>
-                                                        <?php } ?>
-                                                    </select>
-                                                    <?php if(!empty($validation["blood_group_id"])){ ?>
-                                                        <span class="help-block with-errors"><?php echo $validation["blood_group_id"]; ?></span>
-                                                    <?php } ?>
-                                                    <div class="help-content hidden">
-                                                        <ul class="tip-info">
-                                                            <li>Chọn nhóm máu.</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm-5">
-                                                <div class="form-group <?php echo !empty($validation["blood_group_rh_id"]) ? "has-error" : null; ?>">
-                                                    <label for="blood_group_rh_id" class="pull-left">Chọn nhóm máu RH</label><br>
-                                                    <select id="blood_group_rh_id" name="blood_group_rh_id" class="form-control">
-                                                        <option value="" <?php echo (!empty($validation["blood_group_rh_id"]))? 'selected' : ''; ?>  > Chọn nhóm máu RH </option>
-                                                        <?php foreach(get_blood_group_rh() as $key => $bloodItem){  ?>
-                                                            <?php if(empty($validation["blood_group_rh_id"]) && empty($set_value['blood_group_rh_id']) ){ ?>
-                                                                <option value="<?php echo $bloodItem["id"]; ?>" >  <?php echo $bloodItem['name']; ?> </option>
-                                                            <?php } else { ?>
-                                                                <option value="<?php echo $bloodItem["id"]; ?>" <?php echo ($bloodItem["id"] == $set_value['blood_group_rh_id'])? 'selected' : null; ?> >  <?php echo $bloodItem['name']; ?> </option>
-                                                            <?php }  ?>
-                                                        <?php } ?>
-                                                    </select>
-                                                    <?php if(!empty($validation["blood_group_rh_id"])){ ?>
-                                                        <span class="help-block with-errors"><?php echo $validation["blood_group_rh_id"]; ?></span>
-                                                    <?php } ?>
-                                                    <div class="help-content hidden">
-                                                        <ul class="tip-info">
-                                                            <li>Chọn nhóm máu RH.</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="clear"></div>
                                         </div>
 
@@ -329,35 +281,11 @@
                                         <div class="row clear">
                                             <div class="form-group">
                                                 <label for="ac_address" class="pull-left">Địa chỉ</label><br>
-                                            <textarea id="ac_address" name="ac_address" rows="3" class="form-control" placeholder="Địa chỉ"><?php
+                                                <textarea id="ac_address" name="ac_address" rows="3" class="form-control" placeholder="Địa chỉ"><?php
                                                 if(!empty($set_value['address'])){
                                                     echo $set_value['address'];
                                                 }
                                                 ?></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <hr class="line">
-                                                <label class="pull-left"><strong>Liên hệ khẩn cấp</strong></label>
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="form-group">
-                                                <label for="contact_name" class="pull-left">Họ và tên</label><br>
-                                                <input id="contact_name" name="contact_name" type="text" class="form-control" placeholder="Họ và tên"  value="<?php
-                                                if(!empty($set_value['contact_name'])){
-                                                    echo $set_value['contact_name'];
-                                                }
-                                                ?>">
-                                            </div>
-                                            <div class="form-group <?php echo !empty($validation["contact_phone"]) ? "has-error" : null; ?>">
-                                                <label for="contact_phone" class="pull-left">Số điện thoại</label><br>
-                                                <input id="contact_phone" name="contact_phone" type="text" class="form-control" placeholder="Số điện thoại"  value="<?php
-                                                if(!empty($set_value['contact_phone'])){
-                                                    echo $set_value['contact_phone'];
-                                                }
-                                                ?>">
-                                                <?php if(!empty($validation["contact_phone"])){ ?>
-                                                    <span class="help-block with-errors"><?php echo $validation["contact_phone"]; ?></span>
-                                                <?php } ?>
                                             </div>
                                         </div>
                                     </div>
