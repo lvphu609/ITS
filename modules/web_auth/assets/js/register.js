@@ -160,7 +160,7 @@ $(document).ready(function(){
         },
         ignore: "",
         rules: {
-            username: {
+            /*username: {
                 required: {
                     depends:function(){
                         $(this).val($.trim($(this).val()));
@@ -170,7 +170,7 @@ $(document).ready(function(){
                 minlength: 5,
                 noSpace: true,
                 lettersonly: true
-            },
+            },*/
             password: {
                 required: true,
                 minlength: 6
@@ -208,15 +208,15 @@ $(document).ready(function(){
             },
             avatar:{
                 required: true
-            }
+            },
         },
         messages: {
-            username: {
+            /*username: {
                 required: "Tên đăng nhập không được để trống.",
                 minlength: "Tên đăng nhập phải lớn hơn hoặc bằng 5 ký tự.",
                 noSpace: "Tên đăng nhập không có khảng trắng.",
                 lettersonly: "Tên đăng nhập bắt đầu bằng ký tự chữ, bao gồm ký tự chữ hoặc chữ và số, ít nhất 1 ký tự từ a đến z và không có ký tự đặc biệt.",
-            },
+            },*/
             password: {
                 required: "Mật khẩu không được để trống.",
                 minlength: "Mật khẩu phải lớn hơn hoặc bằng 6 ký tự."
@@ -255,13 +255,15 @@ $(document).ready(function(){
             },
             avatar:{
                 required: "Hình đại diện không được để trống."
+            },
+            contact_phone: {
+                number: "Số điện thoại phải là số."
             }
-
         },
         tooltip_options: {
             /*example4: {trigger:'focus'},
             example5: {placement:'right',html:true}*/
-            username: {placement:'top'},
+           /* username: {placement:'top'},*/
             password: {placement:'top'},
             confirm_password: {placement:'top'},
             full_name: {placement:'top'},
@@ -270,7 +272,8 @@ $(document).ready(function(){
             identity_card_id: {placement:'top'},
             phone_number: {placement:'top'},
             email:{placement:'top'},
-            avatar:{placement:'top'}
+            avatar:{placement:'top'},
+            contact_phone: {placement:'top'}
         },
         /*errorPlacement: function(error,element) {
             checkEnableButton();
@@ -454,7 +457,7 @@ $(document).ready(function(){
 
 
     function checkEnableButton(){
-        var username = $('#username').val();
+        /*var username = $('#username').val();*/
         var password = $('#password').val();
         var confirm_password = $('#confirm_password').val();
         var full_name = $('#full_name').val();
@@ -466,7 +469,8 @@ $(document).ready(function(){
         var avatar = $('#avatar').val();
         var account_type = $('#account_type').val();
 
-        if( username != "" &&
+        if(
+            //username != "" &&
             password != "" &&
             confirm_password != "" &&
             full_name != "" &&
@@ -481,7 +485,8 @@ $(document).ready(function(){
             $('.btn-next').attr('disabled', 'disabled');
         }
 
-        if( username != "" &&
+        if(
+            //username != "" &&
             password != "" &&
             confirm_password != "" &&
             full_name != "" &&

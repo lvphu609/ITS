@@ -44,28 +44,25 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
-                                            <div class="form-group <?php echo !empty($validation["username"]) ? "has-error" : null; ?>">
-                                                <label for="username" class="pull-left">Tên đăng nhập</label><br>
-                                                <input name="username" type="text" class="form-control" id="username" placeholder="Tên đăng nhập" value="<?php
+                                            <div class="form-group <?php echo !empty($validation["email"]) ? "has-error" : null; ?>">
+                                                <label for="email" class="pull-left">Email</label><br>
+                                                <input id="email" name="email" type="text" class="form-control" placeholder="Email" value="<?php
                                                 //validation
-                                                if(!empty($set_value['username'])){
-                                                    echo $set_value['username'];
+                                                if(!empty($set_value['email'])){
+                                                    echo $set_value['email'];
                                                 }
                                                 ?>">
-                                                <?php if(!empty($validation["username"])){ ?>
-                                                    <span class="help-block with-errors"><?php echo $validation["username"]; ?></span>
+                                                <?php if(!empty($validation["email"])){ ?>
+                                                    <span class="help-block with-errors"><?php echo $validation["email"]; ?></span>
                                                 <?php } ?>
                                                 <div class="help-content hidden">
                                                     <ul class="tip-info">
-                                                        <li>Tên đăng nhập không được để trống.</li>
-                                                        <li>Tên đăng nhập chỉ sử dụng ký tự (a-z) và số.</li>
-                                                        <li>Tên đăng nhập phải lớn hơn hoặc bằng 5 ký tự.</li>
-                                                        <li>Tên đăng nhập ít nhất 1 ký tự từ a đến z.</li>
+                                                        <li>Định dạng email ví dụ example@gmail.com.</li>
                                                     </ul>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="password" class="pull-left">Mật khẩu</label><br>
+                                                <label for="password" class="pull-left">Mật khẩu &nbsp;&nbsp;&nbsp;&nbsp;</label><br>
                                                 <input name="password" type="password" class="form-control" id="password" placeholder="Mật khẩu">
                                                 <div class="help-content hidden">
                                                     <ul class="tip-info">
@@ -191,24 +188,6 @@
                                                     <ul class="tip-info">
                                                         <li>Số điện thoại không được để trống.</li>
                                                         <li>Số điện thoại ít nhất 10 số.</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="form-group <?php echo !empty($validation["email"]) ? "has-error" : null; ?>">
-                                                <label for="email" class="pull-left">Email</label><br>
-                                                <input id="email" name="email" type="text" class="form-control" placeholder="Email" value="<?php
-                                                //validation
-                                                if(!empty($set_value['email'])){
-                                                    echo $set_value['email'];
-                                                }
-                                                ?>">
-                                                <?php if(!empty($validation["email"])){ ?>
-                                                    <span class="help-block with-errors"><?php echo $validation["email"]; ?></span>
-                                                <?php } ?>
-                                                <div class="help-content hidden">
-                                                    <ul class="tip-info">
-                                                        <li>Định dạng email ví dụ example@gmail.com.</li>
                                                     </ul>
                                                 </div>
                                             </div>

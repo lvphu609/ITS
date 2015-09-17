@@ -67,7 +67,7 @@ class Accounts extends Rest_Controller
         {
             /*Set the form validation rules*/
             $rules = array(
-                array('field' => 'username', 'label' => 'lang:username', 'rules' => 'required|min_length[5]|is_unique[accounts.username]'),
+                //array('field' => 'username', 'label' => 'lang:username', 'rules' => 'required|min_length[5]|is_unique[accounts.username]'),
                 array('field' => 'password', 'label' => 'lang:password', 'rules' => 'required'),
                 array('field' => 'confirm_password', 'label' => 'lang:confirm_password', 'rules' => 'required|matches[password]'),
                 array('field' => 'email', 'label' => 'lang:email', 'rules' => 'required|valid_email|is_unique[accounts.email]'),
@@ -93,7 +93,7 @@ class Accounts extends Rest_Controller
                 $status = 'failure';
                 $message = '';
                 $validation = array(
-                    'username' => $this->form_validation->error('username'),
+                    //'username' => $this->form_validation->error('username'),
                     'password' => $this->form_validation->error('password'),
                     'confirm_password' => $this->form_validation->error('confirm_password'),
                     'email' => $this->form_validation->error('email'),
@@ -113,7 +113,7 @@ class Accounts extends Rest_Controller
                 $dataInput = $this->input->post();
 
                 $accountRecord = array(
-                    'username' => $dataInput['username'],
+                    //'username' => $dataInput['username'],
                     'password' => trim($dataInput['password']),
                     'email' => $dataInput['email'],
                     'full_name' => $dataInput['full_name'],
@@ -179,6 +179,8 @@ class Accounts extends Rest_Controller
                     'gender' => $dataInput['gender'],
                     'identity_card_id' => $dataInput['identity_card_id'],
                     'phone_number' => $dataInput['phone_number'],
+                    'blood_group_id' => $dataInput['blood_group_id'],
+                    'blood_group_rh_id' => $dataInput['blood_group_rh_id'],
                     'address' => !empty($dataInput['address']) ? $dataInput['address'] : "",
                     'contact_name' => !empty($dataInput['contact_name']) ? $dataInput['contact_name'] : "",
                     'contact_phone' => !empty($dataInput['contact_phone']) ? $dataInput['contact_phone'] : ""
