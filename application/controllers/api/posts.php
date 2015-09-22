@@ -887,7 +887,7 @@ class Posts extends Rest_Controller
      * @token  string has
      *
      *@param
-     * @arr_post_id             json
+     * @arr_post_id             json  ex: [1,2,3,4,5]
      *
      *@response  object
      * */

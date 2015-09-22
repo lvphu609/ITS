@@ -138,6 +138,47 @@ class Config extends Rest_Controller
         $this->response($data, HEADER_SUCCESS);
     }
 
+    function get_sub_post_types_post(){
+        //initialize
+        $status = 'success';
+        $message = '';
+        $results = null;
+        $validation = null;
+
+        /*Set the form validation rules*/
+        $rules = array(
+            array('field'=>'id', 'label'=>'lang:id', 'rules'=>'required')
+        );
+
+        $this->form_validation->set_rules($rules);
+
+        /*Check if the form passed its validation */
+        if ($this->form_validation->run() == FALSE) {
+            $status = 'failure';
+            $message = '';
+            $validation = array(
+                'id' => $this->form_validation->error('id')
+            );
+        }
+        //validate success
+        else{
+            $results = $this->config_model->getSubPostType($this->input->post('id'));
+            if(!is_array($results)){
+                $status = 'failure';
+                $message = "error";
+            }
+        }
+
+        $data = array(
+            'status' => $status,
+            'message' => $message,
+            'results' => $results,
+            'validation' => $validation
+        );
+
+        $this->response($data, HEADER_SUCCESS);
+    }
+
     function get_post_type_emergency_get(){
         //initialize
         $status = 'success';

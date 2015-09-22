@@ -49,7 +49,7 @@ class Config_model extends CI_Model {
     function getListTypePost(){
         $this->db->select('id, name, description, avatar');
         $this->db->from('type_posts');
-        $this->db->where('id <>',1); //not get emergency
+        $this->db->where('parent_id',null);
         $this->db->where('is_delete',null);
         $query = $this->db->get();
         if($query->num_rows() > 0 ){
@@ -74,6 +74,27 @@ class Config_model extends CI_Model {
         $result = $query->result_array();
         $result[0]['avatar'] = $this->file_model->getLinkFileById($result[0]['avatar']);
         return $result[0];
+    }
+
+    function getSubPostType($id){
+        $this->db->select('id, name, description, avatar');
+        $this->db->from('type_posts');
+        $this->db->where('parent_id',$id);
+        $this->db->where('is_delete',null);
+        $query = $this->db->get();
+        if($query->num_rows() > 0 ){
+            $result = $query->result_array();
+            if(count($result)>0){
+                $arrTemp = array();
+                foreach($result as $key => $type){
+                    $type['avatar'] = $this->file_model->getLinkFileById($type['avatar']);
+                    array_push($arrTemp,$type);
+                }
+                return $arrTemp;
+            }
+            return $result;
+        }
+        return array();
     }
 
 }

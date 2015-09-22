@@ -18,10 +18,14 @@
     /*background-color: #FF0000;*/
     /*color: #FFFFFF;*/
     font-weight: bold;
+    height: 45px;
 }
 
 .logo-home{
     width: 150px;
+    position: absolute;
+    margin-top: -34px;
+    margin-left: -40px;
 }
 
 .form-group.has-error .error, .form-group label.error{

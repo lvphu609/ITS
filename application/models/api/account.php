@@ -24,22 +24,52 @@ class Account extends CI_Model {
         return false;
     }
 
-    
+
     function createAccount($data,$account_id = null){
          try {
              //create account
              if (empty($account_id)) {
-                 $temp = array(
-                     'created_at' => getCurrentDate()
-                 );
+                 $arrAccountType = $data['account_type'];
 
-                 $recordData = array_merge($data, $temp);
+                 $this->db->trans_begin();
 
-                 $isInsert = $this->db->insert('accounts', $recordData);
+                     //create account
+                     //unset($data['account_type']);
+                     $temp = array(
+                         'created_at' => getCurrentDate()
+                     );
+                     $recordData = array_merge($data, $temp);
 
-                 if ($isInsert) {
+                     $isInsert = $this->db->insert('accounts', $recordData);
+
+                     if ($isInsert) {
+                         $accountId = $this->db->insert_id();
+                         $arrRecord = array();
+                         $arrAccountType = json_decode($arrAccountType,true);
+                         foreach($arrAccountType as $id){
+                             array_push($arrRecord,
+                                 array(
+                                     'account_id' => $accountId,
+                                     'account_type_id' => $id
+                                 )
+                             );
+                         }
+                         //create account_types
+                         $this->db->insert_batch('account_account_type', $arrRecord);
+                     }
+
+                 if ($this->db->trans_status() === FALSE)
+                 {
+                     $this->db->trans_rollback();
+                     return false;
+                 }
+                 else
+                 {
+                     $this->db->trans_commit();
                      return true;
                  }
+
+
              } //update account
              else {
                  $temp = array(
@@ -66,6 +96,7 @@ class Account extends CI_Model {
         }
 		return false;
     }
+
 
     /*function checkAccount(){
         $input = $this->input->post();
@@ -109,7 +140,7 @@ class Account extends CI_Model {
 // check account exits in database by username and password
     function checkAccount($input){
         $query = $this->db->get_where('accounts',array(
-            'username' => trim($input['username']),
+            'email' => trim($input['email']),
             'password' => trim($input['password'])
         ));
 
@@ -270,11 +301,8 @@ class Account extends CI_Model {
     //get account information by account id
     function getAccountInfoById($id){
         $this->db->select(
-            'id, username, email, full_name,
-            date_of_birth, gender, identity_card_id,
-            phone_number, blood_group_id, blood_group_rh_id,
+            'id, email, full_name, phone_number,
             avatar, address, updated_at,
-            contact_name, contact_phone,
             location_lat, location_lng, reg_id, account_type'
     );
         $this->db->from('accounts');

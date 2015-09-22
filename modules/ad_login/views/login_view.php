@@ -2,7 +2,7 @@
         <div class="login-panel panel panel-default">
             <div class="panel-heading">
                 <!--<h3 class="panel-title"><?php /*echo $this->lang->line('panel_name'); */?></h3>-->
-                <img class="logo-home" src="<?php echo base_url('resources/img/logo/logo_small.png'); ?>">
+                <img class="logo-home" src="<?php echo base_url('resources/img/logo/logo-its.png'); ?>">
             </div>
             <div class="panel-body">
                  <?php echo form_open(base_url('admin/auth'), array('method' => 'post', 'id' => 'frm_login')); ?>

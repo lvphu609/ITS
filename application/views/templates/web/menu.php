@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo base_url('home'); ?>"><img class="logo-home" src="<?php echo base_url('resources/img/logo/logo_small.png'); ?>"></a>
+                <a class="navbar-brand" href="<?php echo base_url('home'); ?>"><img class="logo-home" src="<?php echo base_url('resources/img/logo/logo-its.png'); ?>"></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
                 <?php if(empty($_SESSION['']['web_user_login'])){ ?>
